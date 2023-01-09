@@ -1,7 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, TextInput, Button, Text } from 'react-native';
-import { ActivityIndicator } from 'react-native';
+import { StyleSheet, TextInput, Button, Text, Alert, ActivityIndicator } from 'react-native';
 
 
 const HomeSearchBar = ({ navigation }) => {
@@ -24,6 +23,16 @@ const HomeSearchBar = ({ navigation }) => {
         setInput(text);
     };
 
+    const handleError = () => {
+        Alert.alert(
+            'Ups...',
+            'No te entendí bien, intenta con otra pregunta',
+            [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+            { cancelable: false }
+        );
+    };
+
+
     const getResponse = () => {
         if (input === '') {
             setOutput('Hola, ¿en qué te puedo ayudar?');
@@ -38,7 +47,7 @@ const HomeSearchBar = ({ navigation }) => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer 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',
+                    'Authorization': 'Bearer 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',
                 },
                 body: JSON.stringify({
                     model: 'text-davinci-003',
@@ -53,7 +62,10 @@ const HomeSearchBar = ({ navigation }) => {
                         // Parse the JSON response and extract the output text
                         setOutput(responseJson.choices[0].text);
 
+                    } else {
+                        handleError();
                     }
+
                     console.log(responseJson)
                     navigation.navigate('Output', { output: responseJson.choices[0].text });
                 })

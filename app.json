@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "emilybeta",
+    "name": "Emily Assistant",
     "slug": "emilyia",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -21,14 +21,19 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "y"
     },
     "android": {
+      "package": "com.ernestoddp.emilyia",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.ernestoddp.emilyia"
+      "versionCode": 4,
+      "permissions": [
+        "com.google.android.gms.permission.AD_ID"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -37,7 +42,17 @@
       "eas": {
         "projectId": "513fb700-fe34-4f4b-be59-e8f361f17307"
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableProguardInReleaseBuilds": true
+          }
+        }
+      ]
+    ]
   },
   "react-native-google-mobile-ads": {
     "android_app_id": "ca-app-pub-8377618663906586~4369594076",
