@@ -100,7 +100,6 @@ const HomeSearchBar = ({ navigation }) => {
                 <ActivityIndicator size="large" color="#0000ff" />
             ) : (
                 <Button
-                    style={styles.button}
                     title="Send"
                     onPress={getResponse}
                     disabled={isLoading}
@@ -109,8 +108,6 @@ const HomeSearchBar = ({ navigation }) => {
         </LinearGradient>
     );
 };
-
-export default HomeSearchBar;
 
 const styles = StyleSheet.create({
     container: {
@@ -126,7 +123,6 @@ const styles = StyleSheet.create({
         margin: 50,
         width: '80%',
         height: 40,
-        width: 350,
         borderColor: 'white',
         borderWidth: 0,
         borderRadius: 50,
@@ -163,4 +159,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
 });
+
+export default HomeSearchBar;
 

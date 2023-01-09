@@ -2,7 +2,7 @@
   "expo": {
     "name": "Emily Assistant",
     "slug": "emilyia",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -28,9 +28,10 @@
       "package": "com.ernestoddp.emilyia",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#FFFFFF",
+        "targetSdkVersion": "29"
       },
-      "versionCode": 4,
+      "versionCode": 7,
       "permissions": [
         "com.google.android.gms.permission.AD_ID"
       ]
