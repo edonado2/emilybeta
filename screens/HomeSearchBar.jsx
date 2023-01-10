@@ -1,6 +1,6 @@
-import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, TextInput, Button, Text, Alert, ActivityIndicator } from 'react-native';
+import { StyleSheet, TextInput, Button, Text, Alert, ActivityIndicator, View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 const HomeSearchBar = ({ navigation }) => {
@@ -47,7 +47,7 @@ const HomeSearchBar = ({ navigation }) => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer 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',
+                    'Authorization': 'Bearer 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',
                 },
                 body: JSON.stringify({
                     model: 'text-davinci-003',
@@ -86,26 +86,29 @@ const HomeSearchBar = ({ navigation }) => {
     }, [buttonPressed]);
 
     return (
-        <LinearGradient colors={['#ffb6c1', '#ffffff', '#87ceeb']} style={styles.container}>
-            <Text style={{ fontSize: 40, color: '#414A4C', fontWeight: 'bold' }}>
-                My name is Emily ask me anything you like.
-            </Text>
-            <TextInput
-                style={styles.input}
-                value={input}
-                onChangeText={handleInputChange}
-                placeholder=" What can I do for you today?"
-            />
-            {isLoading ? (
-                <ActivityIndicator size="large" color="#0000ff" />
-            ) : (
-                <Button
-                    title="Send"
-                    onPress={getResponse}
-                    disabled={isLoading}
+        <View style={styles.container}>
+            <LinearGradient colors={['#ffb6c1', '#ffffff', '#87ceeb']} style={styles.container}>
+                <Text style={{ fontSize: 40, color: '#414A4C', fontWeight: 'bold' }}>
+                    My name is Emily ask me anything you like.
+                </Text>
+                <TextInput
+                    style={styles.input}
+                    value={input}
+                    onChangeText={handleInputChange}
+                    placeholder=" What can I do for you today?"
                 />
-            )}
-        </LinearGradient>
+                {isLoading ? (
+                    <ActivityIndicator size="large" color="#0000ff" />
+                ) : (
+                    <Button
+                        title="Send"
+                        onPress={getResponse}
+                        disabled={isLoading}
+                    />
+                )}
+            </LinearGradient>
+        </View>
+
     );
 };
 

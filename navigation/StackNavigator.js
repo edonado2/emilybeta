@@ -2,7 +2,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import HomeSearchBar from '../screens/HomeSearchBar';
 import OutputScreen from '../screens/OutputScreen';
 
-const ScreenNavigator = createStackNavigator(
+const StackNavigator = createStackNavigator(
     {
         Home: HomeSearchBar,
         Output: OutputScreen,
@@ -12,4 +12,4 @@ const ScreenNavigator = createStackNavigator(
     }
 );
 
-export default ScreenNavigator;
+export default StackNavigator;
