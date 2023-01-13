@@ -10,7 +10,11 @@
     "preview": {
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "env": {
+        "API_URL": "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"
+      }
+    }
   },
   "submit": {
     "production": {}

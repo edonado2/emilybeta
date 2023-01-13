@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, TextInput, Button, Text, Alert, ActivityIndicator, View } from 'react-native';
+import { StyleSheet, TextInput, Text, Alert, ActivityIndicator, View, Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-
+import { Keyboard } from 'react-native'
 
 const HomeSearchBar = ({ navigation }) => {
 
@@ -47,7 +47,7 @@ const HomeSearchBar = ({ navigation }) => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer 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',
+                    'Authorization': 'Bearer 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',
                 },
                 body: JSON.stringify({
                     model: 'text-davinci-003',
@@ -88,23 +88,27 @@ const HomeSearchBar = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <LinearGradient colors={['#ffb6c1', '#ffffff', '#87ceeb']} style={styles.container}>
-                <Text style={{ fontSize: 40, color: '#414A4C', fontWeight: 'bold' }}>
-                    My name is Emily ask me anything you like.
+                <Text style={{ fontSize: 40, color: '#414A4C', fontWeight: 'bold', padding: 15 }}>
+                    Hola, mi nombre es Emily pregúntame lo que quieras.
                 </Text>
                 <TextInput
                     style={styles.input}
                     value={input}
                     onChangeText={handleInputChange}
-                    placeholder=" What can I do for you today?"
+                    placeholder=" ¿En que te puedo ayudar hoy?"
                 />
                 {isLoading ? (
-                    <ActivityIndicator size="large" color="#0000ff" />
+                    <ActivityIndicator size="large" color="#710193" />
                 ) : (
-                    <Button
-                        title="Send"
-                        onPress={getResponse}
+                    <Pressable
+                        style={styles.button}
+                        onPress={() => {
+                            getResponse();
+                            Keyboard.dismiss();
+                        }}
                         disabled={isLoading}
-                    />
+                        styles={styles.button}
+                    ><Text style={styles.buttonText}>Enviar</Text></Pressable>
                 )}
             </LinearGradient>
         </View>
@@ -124,7 +128,7 @@ const styles = StyleSheet.create({
     },
     input: {
         margin: 50,
-        width: '80%',
+        width: '90%',
         height: 40,
         borderColor: 'white',
         borderWidth: 0,
@@ -135,19 +139,23 @@ const styles = StyleSheet.create({
 
     },
     button: {
-        marginTop: 10,
-        width: '30%',
+        marginTop: '10%',
+        width: '70%',
         height: 40,
-        backgroundColor: '#00b5ec',
+        backgroundColor: '#710193',
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center',
+        borderRadius: 15
+
     },
+
     buttonText: {
         color: 'white',
         fontSize: 16,
-        fontWeight: 'bold',
+        fontWeight: 'bold'
     },
+
     output: {
         margin: 50,
         width: '80%',

@@ -62,11 +62,11 @@ const OutputScreen = (props) => {
                 </Card>
             </ScrollView>
             <View style={styles.buttonContainer}>
-                {interstitialLoaded ? <Button title="Go back" onPress={() => {
+                {interstitialLoaded ? <Button title="Volver" onPress={() => {
                     interstitial.show()
                     setOutput('');
                     props.navigation.goBack();
-                }} /> : <Button title='Go back' onPress={() => props.navigation.goBack()
+                }} /> : <Button title='Volver' onPress={() => props.navigation.goBack()
                 }></Button>}
 
                 <SafeAreaView style={{ paddingTop: 30 }}>
