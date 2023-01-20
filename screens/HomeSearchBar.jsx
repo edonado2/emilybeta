@@ -47,7 +47,7 @@ const HomeSearchBar = ({ navigation }) => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer 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',
+                    'Authorization': 'Bearer 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',
                 },
                 body: JSON.stringify({
                     model: 'text-davinci-003',
@@ -103,8 +103,8 @@ const HomeSearchBar = ({ navigation }) => {
                     <Pressable
                         style={styles.button}
                         onPress={() => {
-                            getResponse();
                             Keyboard.dismiss();
+                            getResponse();
                         }}
                         disabled={isLoading}
                         styles={styles.button}
@@ -127,9 +127,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f5f5',
     },
     input: {
-        margin: 50,
+        margin: 30,
         width: '90%',
-        height: 40,
+        height: 55,
         borderColor: 'white',
         borderWidth: 0,
         borderRadius: 50,

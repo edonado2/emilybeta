@@ -1,49 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
 import { Card } from 'react-native-elements';
-import { BannerAd, BannerAdSize, InterstitialAd, AdEventType } from 'react-native-google-mobile-ads';
+import { BannerAd, BannerAdSize, InterstitialAd, AdEventType, TestIds } from 'react-native-google-mobile-ads';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 const OutputScreen = (props) => {
     const [output, setOutput] = useState('');
+    const [interstitialLoaded, setInterstitialLoaded] = useState(false);
+    const [interstitial, setInterstitial] = useState(null);
 
     useEffect(() => {
         const outputValue = props.navigation.getParam('output');
         setOutput(outputValue);
     }, []);
 
-    const interstitial = InterstitialAd.createForAdRequest('ca-app-pub-8377618663906586/4044276548', {
-        requestNonPersonalizedAdsOnly: true
-    })
-
-    const [interstitialLoaded, setinterstitialLoaded] = useState(false);
-
-    const loadInterstitial = () => {
-        const unsuscribedLoaded = interstitial.addAdEventListener(AdEventType.LOADED,
-            () => {
-                setinterstitialLoaded(true)
-            })
-        const unsuscribedClosed = interstitial.addAdEventListener(AdEventType.CLOSED,
-            () => {
-                setinterstitialLoaded(true)
-                interstitial.load();
-            }
-        )
-
-        interstitial.load();
-
-        return () => {
-            unsuscribedClosed();
-            unsuscribedLoaded();
-        }
-    };
-
     useEffect(() => {
-        const unsuscribeinterstitialEvents = loadInterstitial();
-        return unsuscribeinterstitialEvents
-    })
-
+        if (!interstitial) {
+            setInterstitial(InterstitialAd.createForAdRequest('ca-app-pub-8377618663906586/4044276548', {
+                requestNonPersonalizedAdsOnly: true
+            }));
+        } else {
+            interstitial.load();
+            const unsuscribedLoaded = interstitial.addAdEventListener(AdEventType.LOADED, () => {
+                setInterstitialLoaded(true);
+            });
+            const unsuscribedClosed = interstitial.addAdEventListener(AdEventType.CLOSED, () => {
+                setInterstitialLoaded(false);
+                interstitial.load();
+            });
+            return () => {
+                unsuscribedLoaded();
+                unsuscribedClosed();
+            };
+        }
+    }, [interstitial]);
 
     return (
         <View style={styles.container}>
@@ -65,6 +56,7 @@ const OutputScreen = (props) => {
                 {interstitialLoaded ? <Button title="Volver" onPress={() => {
                     interstitial.show()
                     setOutput('');
+                    setInterstitialLoaded(false);
                     props.navigation.goBack();
                 }} /> : <Button title='Volver' onPress={() => props.navigation.goBack()
                 }></Button>}
