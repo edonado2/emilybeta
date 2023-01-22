@@ -3,6 +3,7 @@ import HomeSearchBar from '../screens/HomeSearchBar';
 import OutputScreen from '../screens/OutputScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/SignUpScreen';
+import OnboardingScreen from '../screens/OnboardingScreen';
 
 
 const StackNavigator = createStackNavigator({
@@ -11,6 +12,13 @@ const StackNavigator = createStackNavigator({
         navigationOptions: {
             header: null,
         },
+    },
+
+    Onboarding: {
+        screen: OnboardingScreen,
+        navigationOptions: {
+            header: null
+        }
     },
     Register: {
         screen: RegisterScreen,
@@ -32,7 +40,7 @@ const StackNavigator = createStackNavigator({
     },
 },
     {
-        initialRouteName: '',
+        initialRouteName: 'Onboarding',
     });
 
 export default StackNavigator;
