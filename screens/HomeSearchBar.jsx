@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, TextInput, Text, Alert, ActivityIndicator, View, Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Keyboard } from 'react-native'
+import { useNavigation } from '@react-navigation/native';
 
-const HomeSearchBar = ({ navigation }) => {
+const HomeSearchBar = () => {
 
+    const navigation = useNavigation();
 
     const [input, setInput] = useState('');
     const [output, setOutput] = useState('');
@@ -47,7 +49,7 @@ const HomeSearchBar = ({ navigation }) => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer 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',
+                    'Authorization': 'Bearer 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',
                 },
                 body: JSON.stringify({
                     model: 'text-davinci-003',
@@ -67,6 +69,7 @@ const HomeSearchBar = ({ navigation }) => {
                     }
 
                     console.log(responseJson)
+                    setOutput(responseJson.choices[0].text);
                     navigation.navigate('Output', { output: responseJson.choices[0].text });
                 })
                 .catch((error) => {

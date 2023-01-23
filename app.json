@@ -30,7 +30,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "versionCode": 12,
+      "versionCode": 17,
       "permissions": [
         "com.google.android.gms.permission.AD_ID"
       ]

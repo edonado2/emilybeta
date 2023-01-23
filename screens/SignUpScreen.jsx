@@ -1,19 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { initializeApp } from 'firebase/app';
-import { firebaseConfig } from '../firebase';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { Card } from 'react-native-elements';
+import SocialButton from '../components/SocialButton';
+import { ScrollView } from 'react-native-gesture-handler';
+import { AuthContext } from '../navigation/AuthProvider';
 
 const RegisterScreen = ({ navigation }) => {
+
+    const { register } = useContext(AuthContext)
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState(null);
-    const auth = getAuth(app)
-    const app = initializeApp(firebaseConfig)
+
 
     const handleRegistration = () => {
         // validate form inputs
@@ -29,66 +31,97 @@ const RegisterScreen = ({ navigation }) => {
         // navigate to login screen
         Alert.alert(
             'Tu cuenta ha sido creada',
-            'Inicia sesión para comenzar a utilizar la App',
+            'Ya puedes comenzar a utilizar la app',
             [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
             { cancelable: false }
         );
-        navigation.navigate('Login');
+        register(email, password)
     }
 
-    const handleCreateAccount = () => {
-        createUserWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                const user = userCredential.user;
-                console.log(user)
-                navigation.navigate('Login')
-            }).catch(err => {
-                setError(err.message);
-            })
-    }
 
     return (
         <View style={styles.container}>
-            <Card>
-                <Text style={styles.label}>Nombre Completo</Text>
-                <TextInput
-                    style={styles.input}
-                    value={name}
-                    onChangeText={setName}
-                    placeholder="Ingrese su nombre"
-                    autoCapitalize="words"
-                />
-                <Text style={styles.label}>Correo Electrónico</Text>
-                <TextInput
-                    style={styles.input}
-                    value={email}
-                    onChangeText={setEmail}
-                    placeholder="Ingrese su correo electrónico"
-                    autoCapitalize="none"
-                />
-                <Text style={styles.label}>Contraseña</Text>
-                <TextInput
-                    style={styles.input}
-                    value={password}
-                    onChangeText={setPassword}
-                    placeholder="Ingrese su contraseña"
-                    secureTextEntry={true}
-                />
-                <Text style={styles.label}>Confirma tu Contraseña</Text>
-                <TextInput
-                    style={styles.input}
-                    value={confirmPassword}
-                    onChangeText={setConfirmPassword}
-                    placeholder="Confirme su contraseña"
-                    secureTextEntry={true}
-                />
-                <TouchableOpacity style={styles.button} onPress={() => {
-                    handleRegistration()
-                    handleCreateAccount()
-                }}>
-                    <Text style={styles.buttonText}>Registrarse</Text>
-                </TouchableOpacity>
-            </Card>
+            <ScrollView>
+                <Card>
+                    <Text style={styles.label}>Nombre Completo</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={name}
+                        onChangeText={setName}
+                        placeholder="Ingrese su nombre"
+                        autoCapitalize="words"
+                    />
+                    <Text style={styles.label}>Correo Electrónico</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={email}
+                        onChangeText={setEmail}
+                        placeholder="Ingrese su correo electrónico"
+                        autoCapitalize="none"
+                    />
+                    <Text style={styles.label}>Contraseña</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={password}
+                        onChangeText={setPassword}
+                        placeholder="Ingrese su contraseña"
+                        secureTextEntry={true}
+                    />
+                    <Text style={styles.label}>Confirma tu Contraseña</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={confirmPassword}
+                        onChangeText={setConfirmPassword}
+                        placeholder="Confirme su contraseña"
+                        secureTextEntry={true}
+                    />
+                    <TouchableOpacity style={styles.button} onPress={() => {
+                        handleRegistration()
+                    }}>
+                        <Text style={styles.buttonText}>Registrarse</Text>
+                    </TouchableOpacity>
+                    <View style={styles.textPrivate}>
+                        <Text style={styles.color_textPrivate}>
+                            Al registrarte aceptas nuestros{' '}
+                        </Text>
+                        <TouchableOpacity onPress={() => alert('Terms Clicked!')}>
+                            <Text style={[styles.color_textPrivate, { color: '#e88832' }]}>
+                                Terminos de Servicio
+                            </Text>
+                        </TouchableOpacity>
+                        <Text style={styles.color_textPrivate}> y </Text>
+                        <Text style={[styles.color_textPrivate, { color: '#e88832' }]}>
+                            Politica de Privacidad
+                        </Text>
+                    </View>
+
+                    {Platform.OS === 'android' ? (
+                        <View>
+                            <SocialButton
+                                buttonTitle="Registrate con Facebook"
+                                btnType="facebook"
+                                color="#4867aa"
+                                backgroundColor="#e6eaf4"
+                                onPress={() => { }}
+                            />
+
+                            <SocialButton
+                                buttonTitle="Registrate con Google"
+                                btnType="google"
+                                color="#de4d41"
+                                backgroundColor="#f5e7ea"
+                                onPress={() => { }}
+                            />
+                        </View>
+                    ) : null}
+
+                    <TouchableOpacity
+                        style={styles.navButton}
+                        onPress={() => navigation.navigate('Login')}>
+                        <Text style={styles.navButtonText}>¿Ya tienes una cuenta? Inicia Sesión</Text>
+                    </TouchableOpacity>
+                </Card>
+            </ScrollView>
         </View >
     );
 };
@@ -100,6 +133,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    navButtonText: {
+        fontSize: 15,
+        fontWeight: '500',
+        color: '#2e64e5',
+        fontFamily: 'Lato-Regular',
+        textAlign: 'center',
+        marginVertical: 10
+    },
     formContainer: {
         width: '90%',
         padding: 20,
@@ -110,6 +151,18 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.3,
         shadowRadius: 3,
+    },
+    textPrivate: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginVertical: 3,
+        justifyContent: 'center',
+    },
+    color_textPrivate: {
+        fontSize: 13,
+        fontWeight: '400',
+        fontFamily: 'Lato-Regular',
+        color: 'grey',
     },
     label: {
         fontWeight: 'bold',

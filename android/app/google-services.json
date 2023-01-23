@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1002794487406",
+    "project_id": "emily-91b4c",
+    "storage_bucket": "emily-91b4c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1002794487406:android:e483da3760021f82bb207f",
+        "android_client_info": {
+          "package_name": "com.ernestoddp.emilyia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1002794487406-jiv99qolc9pj4ij9hpbqcotlrn9etnqu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ernestoddp.emilyia",
+            "certificate_hash": "85072d9c6cc8806ce2d228c55226cccdaa8a9dac"
+          }
+        },
+        {
+          "client_id": "1002794487406-boqmuro2okonrkhrp82rhtrv6f4pj835.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIYF-4xZfgeWulZlWMTuJ9CpDVdk0zjrI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1002794487406-boqmuro2okonrkhrp82rhtrv6f4pj835.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -3,17 +3,18 @@ import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
 import { Card } from 'react-native-elements';
 import { BannerAd, BannerAdSize, InterstitialAd, AdEventType, TestIds } from 'react-native-google-mobile-ads';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 
+const OutputScreen = () => {
 
-const OutputScreen = (props) => {
-    const [output, setOutput] = useState('');
+    const navigation = useNavigation();
+    const [, setOutput] = useState('');
     const [interstitialLoaded, setInterstitialLoaded] = useState(false);
     const [interstitial, setInterstitial] = useState(null);
 
-    useEffect(() => {
-        const outputValue = props.navigation.getParam('output');
-        setOutput(outputValue);
-    }, []);
+    const route = useRoute();
+    const output = route.params.output;
 
     useEffect(() => {
         if (!interstitial) {
@@ -57,8 +58,8 @@ const OutputScreen = (props) => {
                     interstitial.show()
                     setOutput('');
                     setInterstitialLoaded(false);
-                    props.navigation.goBack();
-                }} /> : <Button title='Volver' onPress={() => props.navigation.goBack()
+                    navigation.goBack();
+                }} /> : <Button title='Volver' onPress={() => navigation.goBack()
                 }></Button>}
 
                 <SafeAreaView style={{ paddingTop: 30 }}>

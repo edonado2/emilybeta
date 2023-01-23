@@ -1,34 +1,42 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
 import { Card } from 'react-native-elements';
-import { initializeApp } from 'firebase/app';
-import { firebaseConfig } from '../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase';
+import SocialButton from '../components/SocialButton';
+import auth from '@react-native-firebase/auth';
+import { AuthContext } from '../navigation/AuthProvider';
 
-
-const app = initializeApp(firebaseConfig)
 
 const LoginScreen = ({ navigation }) => {
 
+    const { login, googleLogin, fbLogin } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
 
     const handleLogin = () => {
-        signInWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                navigation.navigate('Home');
-            })
-            .catch(err => {
-                setError("Correo o contraseña incorrecto, intente de nuevo.");
-                //setError("El correo o la contraseña ingresada no es valido");
-            });
+        // validate form inputs
+        if (!email || !password) {
+            Alert.alert('Datos Incorrectos', 'Por favor ingrese los datos requeridos.');
+            return;
+        }
+        // send login data to server
+        login(email, password);
     }
 
     return (
         <View style={styles.container}>
             <Card style={styles.card}>
+                <Image
+                    source={require('../assets/login.png')}
+                    style={{ width: '80%', height: 110, resizeMode: 'contain', marginTop: 20 }}
+                />
+                <Text style={{
+                    textAlign: 'center', fontWeight: 'bold',
+                    marginBottom: 20,
+                    fontSize: 22,
+                    color: '#333',
+                }}>Iniciar Sesión</Text>
                 <Text style={styles.label}>Correo electrónico</Text>
                 <TextInput
                     style={styles.input}
@@ -50,7 +58,30 @@ const LoginScreen = ({ navigation }) => {
                 <TouchableOpacity style={styles.button} onPress={handleLogin}>
                     <Text style={styles.buttonText}>Iniciar Sesión</Text>
                 </TouchableOpacity>
+
+                <TouchableOpacity style={styles.link} onPress={() => { }}>
+                    <Text style={styles.linkText}>¿Olvidaste tu contraseña? </Text>
+                </TouchableOpacity>
                 {error && <Text>{error}</Text>}
+                {Platform.OS === 'android' ? (
+                    <View>
+                        <SocialButton
+                            buttonTitle="Iniciar Sesión con Facebook"
+                            btnType="facebook"
+                            color="#4867aa"
+                            backgroundColor="#e6eaf4"
+                            onPress={() => fbLogin()}
+                        />
+
+                        <SocialButton
+                            buttonTitle="Iniciar Sesión con Google"
+                            btnType="google"
+                            color="#de4d41"
+                            backgroundColor="#f5e7ea"
+                            onPress={() => googleLogin()}
+                        />
+                    </View>
+                ) : null}
 
                 <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('Register')}>
                     <Text style={styles.linkText}>¿No tienes una cuenta? Registrate</Text>
@@ -72,23 +103,23 @@ const styles = StyleSheet.create({
         width: '90%',
         height: '70%',
         padding: 20,
-        backgroundColor: '#fff',
+        backgroundColor: '#f5f5f5',
         borderRadius: 10,
         elevation: 2,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
+        shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.3,
         shadowRadius: 3,
     },
     label: {
         fontWeight: 'bold',
         marginBottom: 10,
-        fontSize: 22,
+        fontSize: 15,
         color: '#333',
         paddingHorizontal: 19
     },
     input: {
-        borderWidth: 0.5,
+        borderWidth: 1,
         borderColor: '#ddd',
         padding: 10,
         marginBottom: 20,
