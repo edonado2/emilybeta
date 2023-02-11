@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, TextInput, Text, Alert, ActivityIndicator, View, Pressable } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { StyleSheet, TextInput, Text, Alert, ActivityIndicator, View, Pressable, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Keyboard } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
+import { AuthContext } from '../navigation/AuthProvider';
 
 const HomeSearchBar = () => {
+
+    const { user, logout } = useContext(AuthContext)
 
     const navigation = useNavigation();
 
@@ -49,7 +52,7 @@ const HomeSearchBar = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer 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',
+                    'Authorization': 'Bearer ', //API KEY GOES HERE
                 },
                 body: JSON.stringify({
                     model: 'text-davinci-003',
@@ -103,7 +106,7 @@ const HomeSearchBar = () => {
                 {isLoading ? (
                     <ActivityIndicator size="large" color="#710193" />
                 ) : (
-                    <Pressable
+                    <TouchableOpacity
                         style={styles.button}
                         onPress={() => {
                             Keyboard.dismiss();
@@ -111,8 +114,18 @@ const HomeSearchBar = () => {
                         }}
                         disabled={isLoading}
                         styles={styles.button}
-                    ><Text style={styles.buttonText}>Enviar</Text></Pressable>
+                    ><Text style={styles.buttonText}>Enviar</Text></TouchableOpacity>
                 )}
+                {isLoading ? (null) : (
+                    <TouchableOpacity
+                        style={styles.logoutbutton}
+                        onPress={() => {
+                            logout()
+                        }}
+                        disabled={isLoading}
+                    ><Text style={styles.buttonText}>Cerrar Sesión</Text></TouchableOpacity>
+                )
+                }
             </LinearGradient>
         </View>
 
@@ -171,6 +184,17 @@ const styles = StyleSheet.create({
         color: '#C0C0C0',
         fontSize: 16,
         fontWeight: 'bold'
+    },
+
+    logoutbutton: {
+        marginTop: '10%',
+        width: '70%',
+        height: 40,
+        backgroundColor: '#004F98',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 25
+
     },
 });
 

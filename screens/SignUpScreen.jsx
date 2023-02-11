@@ -16,28 +16,44 @@ const RegisterScreen = ({ navigation }) => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState(null);
 
+    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
     const handleRegistration = () => {
+
         // validate form inputs
         if (!name || !email || !password || !confirmPassword) {
-            Alert.alert('Intenta nuevamente', 'Por favor llene todos los campos requeridos.');
+            setError('Intenta nuevamente, Por favor llene todos los campos requeridos.');
+            return;
+        }
+        if (!emailRegex.test(email)) {
+            setError('Por favor ingrese un correo electrónico válido');
             return;
         }
         if (password !== confirmPassword) {
-            Alert.alert('Intenta nuevamente', 'Las contraseñas no coinciden ');
+            setError("Las contraseñas no coinciden.")
             return;
         }
-        // send registration data to server
-        // navigate to login screen
-        Alert.alert(
-            'Tu cuenta ha sido creada',
-            'Ya puedes comenzar a utilizar la app',
-            [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
-            { cancelable: false }
-        );
-        register(email, password)
-    }
+        if (password.length < 6) {
+            setError("La contraseña debe tener al menos 6 caracteres.")
+            return;
+        }
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
+        if (!passwordRegex.test(password)) {
+            setError('La contraseña debe tener al menos una letra, un número y un caracter especial');
 
+            // send registration data to server
+            // navigate to login screen
+        } else {
+
+            Alert.alert(
+                'Tu cuenta ha sido creada',
+                'Ya puedes comenzar a utilizar la app',
+                [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+                { cancelable: false }
+            );
+            register(email, password)
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -59,6 +75,7 @@ const RegisterScreen = ({ navigation }) => {
                         placeholder="Ingrese su correo electrónico"
                         autoCapitalize="none"
                     />
+
                     <Text style={styles.label}>Contraseña</Text>
                     <TextInput
                         style={styles.input}
@@ -75,6 +92,8 @@ const RegisterScreen = ({ navigation }) => {
                         placeholder="Confirme su contraseña"
                         secureTextEntry={true}
                     />
+                    <Text style={styles.error}>{error}</Text>
+
                     <TouchableOpacity style={styles.button} onPress={() => {
                         handleRegistration()
                     }}>
@@ -95,25 +114,6 @@ const RegisterScreen = ({ navigation }) => {
                         </Text>
                     </View>
 
-                    {Platform.OS === 'android' ? (
-                        <View>
-                            <SocialButton
-                                buttonTitle="Registrate con Facebook"
-                                btnType="facebook"
-                                color="#4867aa"
-                                backgroundColor="#e6eaf4"
-                                onPress={() => { }}
-                            />
-
-                            <SocialButton
-                                buttonTitle="Registrate con Google"
-                                btnType="google"
-                                color="#de4d41"
-                                backgroundColor="#f5e7ea"
-                                onPress={() => { }}
-                            />
-                        </View>
-                    ) : null}
 
                     <TouchableOpacity
                         style={styles.navButton}
@@ -132,6 +132,13 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        padding: 15
+    },
+    error: {
+        color: 'red',
+        textAlign: 'center',
+        marginBottom: 10,
+        fontSize: 16,
     },
     navButtonText: {
         fontSize: 15,

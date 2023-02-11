@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
                 },
                 logout: async () => {
                     try {
-                        auth().signOut
+                        await auth().signOut()
                     } catch (e) {
                         console.log(e);
                     }

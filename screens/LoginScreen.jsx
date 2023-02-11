@@ -59,29 +59,8 @@ const LoginScreen = ({ navigation }) => {
                     <Text style={styles.buttonText}>Iniciar Sesión</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.link} onPress={() => { }}>
-                    <Text style={styles.linkText}>¿Olvidaste tu contraseña? </Text>
-                </TouchableOpacity>
                 {error && <Text>{error}</Text>}
-                {Platform.OS === 'android' ? (
-                    <View>
-                        <SocialButton
-                            buttonTitle="Iniciar Sesión con Facebook"
-                            btnType="facebook"
-                            color="#4867aa"
-                            backgroundColor="#e6eaf4"
-                            onPress={() => fbLogin()}
-                        />
 
-                        <SocialButton
-                            buttonTitle="Iniciar Sesión con Google"
-                            btnType="google"
-                            color="#de4d41"
-                            backgroundColor="#f5e7ea"
-                            onPress={() => googleLogin()}
-                        />
-                    </View>
-                ) : null}
 
                 <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('Register')}>
                     <Text style={styles.linkText}>¿No tienes una cuenta? Registrate</Text>
